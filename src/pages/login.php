@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = htmlspecialchars(trim($_POST['password']));
 
     $valid_email = 'admin@example.com';
-    $valid_password = 'password123';
+    $valid_password = '123';
 
     if ($email === $valid_email && $password === $valid_password) {
         $_SESSION['user'] = $email;

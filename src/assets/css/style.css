@@ -103,6 +103,236 @@ button:hover {
     font-size: 14px;
     margin-bottom: 15px;
 }
+/* Dashboard */
+ 
+/* Genel Body Stilleri */
+body.dashboard {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Admin Görev Alanı */
+.admin-tasks {
+    width: 25%; /* Admin görev sütunu genişliği */
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.admin-tasks h2 {
+    font-size: 20px;
+    color: #6a11cb;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.task-item {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-item p {
+    margin: 0;
+    color: #666;
+}
+
+/* Kanban Alanı */
+.dashboard-container {
+    flex: 1; /* Genişliği admin sütununa göre otomatik ayarlar */
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.kanban-board {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.kanban-board h2 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.kanban-columns {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.kanban-column {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.kanban-column h2 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #6a11cb;
+}
+
+.kanban-card {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.kanban-card p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+.kanban-card .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.kanban-add-card {
+    padding: 10px;
+    border: 1px dashed #6a11cb;
+    border-radius: 5px;
+    text-align: center;
+    color: #6a11cb;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: auto;
+}
+
+.kanban-add-card:hover {
+    background: #f0f0f0;
+}
+
+.logout-button {
+    position: fixed; /* Sağ üst köşeye sabitler */
+    top: 10px;
+    right: 20px;
+    z-index: 1000; /* Diğer elementlerin üstünde gösterir */
+}
+
+.logout-button a {
+    color: #6a11cb;
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+}
+
+.logout-button a:hover {
+    background: #2575fc;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Arka plan karartması */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 30px 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px; /* Modalın genişliği */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    text-align: center; /* İçerik ortalanır */
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.modal-content h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left; /* Form öğeleri sola yaslanır */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #666;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box; /* Padding dışına taşma engellenir */
+}
+
+.form-group textarea {
+    resize: none; /* Kullanıcı boyutlandırmasını devre dışı bırakır */
+    height: 80px; /* Varsayılan yükseklik */
+}
+
+.submit-btn {
+    background: #6a11cb;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%; /* Buton genişliği */
+}
+
+.submit-btn:hover {
+    background: #2575fc;
+}
+
 
 /* Link */
 a {
