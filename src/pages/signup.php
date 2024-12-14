@@ -1,6 +1,11 @@
 <?php
 session_start();
 require_once '../config/db.php'; // Database connection
+require_once '../config/functions.php';
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $firstName = htmlspecialchars(trim($_POST['firstName']));
@@ -26,12 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("sssss", $companyID, $firstName, $lastName, $email, $hashedPassword);
 
         if ($stmt->execute()) {
-            // Kayıt başarılı
+            // Registration successful
             $_SESSION['success_message'] = "Registration successful! You can now log in.";
             header("Location: login.php");
             exit;
         } else {
-            $error_message = "Error: This email is already registered.";
+            $error_message = "Error: " . $stmt->error; // Show detailed error
         }
     }
 }
@@ -58,10 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Signup Form -->
             <form action="signup.php" method="POST">
                 <div class="login-input">
-                    <input type="text" name="name" placeholder="Name" required>
+                    <input type="text" name="firstName" placeholder="Name" required>
                 </div>
                 <div class="login-input">
-                    <input type="text" name="surname" placeholder="Surname" required>
+                    <input type="text" name="lastName" placeholder="Surname" required>
                 </div>
                 <div class="login-input">
                     <input type="email" name="email" placeholder="Email" required>
