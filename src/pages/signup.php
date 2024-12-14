@@ -1,35 +1,38 @@
 <?php
 session_start();
+require_once '../config/db.php'; // Database connection
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize and trim input
-    $name = htmlspecialchars(trim($_POST['name']));
-    $surname = htmlspecialchars(trim($_POST['surname']));
+    $firstName = htmlspecialchars(trim($_POST['firstName']));
+    $lastName = htmlspecialchars(trim($_POST['lastName']));
     $email = htmlspecialchars(trim($_POST['email']));
-    $companyid = htmlspecialchars(trim($_POST['companyid']));
     $password = htmlspecialchars(trim($_POST['password']));
-    $confirm_password = htmlspecialchars(trim($_POST['confirm_password']));
+    $confirmPassword = htmlspecialchars(trim($_POST['confirm_password']));
+    $companyID = htmlspecialchars(trim($_POST['companyid']));
 
-    $error_message = ''; // Initialize error message
-
-    // Validate input fields
-    if (empty($name) || empty($surname) || empty($email) || empty($companyid) || empty($password) || empty($confirm_password)) {
-        $error_message = "All fields are required.";
+    // Error handling
+    if (empty($firstName) || empty($lastName) || empty($email) || empty($password) || empty($confirmPassword) || empty($companyID)) {
+        $error_message = "Please fill in all fields.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error_message = "Invalid email address. Please enter a valid format, e.g., example@domain.com.";
-    } elseif (!preg_match('/^\d{7}$/', $companyid)) {
-        $error_message = "Company ID must be a 7-digit number. If you don’t know your Company ID, please contact your manager.";
-    } elseif ($password !== $confirm_password) {
-        $error_message = "Passwords do not match. Please confirm your password.";
-    } elseif (strlen($password) < 6) {
-        $error_message = "Password must be at least 6 characters long.";
-    }
+        $error_message = "Invalid email address.";
+    } elseif ($password !== $confirmPassword) {
+        $error_message = "Passwords do not match.";
+    } else {
+        // Hash the password
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    // If no errors, process further (e.g., save to database)
-    if (empty($error_message)) {
-        $_SESSION['signup_success'] = "Registration successful! Please log in.";
-        header("Location: login.php"); // Redirect to login page
-        exit;
+        // Insert user into the database
+        $stmt = $conn->prepare("INSERT INTO users (CompanyID, FirstName, LastName, UserEmail, UserPassword) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $companyID, $firstName, $lastName, $email, $hashedPassword);
+
+        if ($stmt->execute()) {
+            // Kayıt başarılı
+            $_SESSION['success_message'] = "Registration successful! You can now log in.";
+            header("Location: login.php");
+            exit;
+        } else {
+            $error_message = "Error: This email is already registered.";
+        }
     }
 }
 ?>
@@ -39,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Task Manager</title>
+    <title>Kayıt Ol</title>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -51,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php if (isset($error_message)) { ?>
                 <p class="error"><?php echo $error_message; ?></p>
             <?php } ?>
+            
             <!-- Signup Form -->
             <form action="signup.php" method="POST">
                 <div class="login-input">

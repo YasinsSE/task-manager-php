@@ -107,6 +107,16 @@ $user_email = $_SESSION['user'];
         </form>
     </div>
 </div>
+<script>
+        // Modal Kontrolü
+        function openModal(column) {
+            document.getElementById('taskColumn').value = column;
+            document.getElementById('addTaskModal').style.display = 'block';
+        }
 
+        function closeModal() {
+            document.getElementById('addTaskModal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
