@@ -112,20 +112,26 @@ body.dashboard {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
     height: 100vh;
     overflow: hidden;
 }
 
 /* Admin Görev Alanı */
 .admin-tasks {
-    width: 25%; /* Admin görev sütunu genişliği */
+    position: fixed; /* Sola sabitler */
+    top: 0;
+    left: 0;
+    width: 25%; /* Genişlik */
+    height: 100%; /* Tüm yüksekliği kaplar */
     background: #fff;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
-    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto; /* Taşma için kaydırma */
 }
+
 
 .admin-tasks h2 {
     font-size: 20px;
@@ -149,9 +155,11 @@ body.dashboard {
 
 /* Kanban Alanı */
 .dashboard-container {
-    flex: 1; /* Genişliği admin sütununa göre otomatik ayarlar */
+    margin-left: 25%; /* Admin görev alanı kadar boşluk bırakır */
+    display: flex;
+    justify-content: center; /* Ortalar */
+    align-items: flex-start; /* Yukarı hizalar */
     padding: 20px;
-    overflow-y: auto;
 }
 
 .kanban-board {
@@ -169,19 +177,21 @@ body.dashboard {
 
 .kanban-columns {
     display: flex;
-    gap: 10px;
-    justify-content: space-between;
+    gap: 20px;
+    justify-content: center; /* Ortalar */
 }
 
 .kanban-column {
+    width: 30%; /* Her sütun eşit genişlikte */
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
+
 
 .kanban-column h2 {
     text-align: center;
@@ -345,3 +355,4 @@ a {
 a:hover {
     color: #6a11cb;
 }
+

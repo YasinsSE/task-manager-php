@@ -1,24 +1,31 @@
 <?php
 session_start();
+require_once '../config/db.php'; // Veritabanı bağlantısı
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = htmlspecialchars(trim($_POST['email']));
     $password = htmlspecialchars(trim($_POST['password']));
 
-    $valid_email = 'admin@example.com';
-    $valid_password = '123';
+    // Kullanıcıyı e-posta ile kontrol et
+    $stmt = $conn->prepare("SELECT UserPassword FROM users WHERE UserEmail = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($email === $valid_email && $password === $valid_password) {
-        $_SESSION['user'] = $email;
-        header("Location: dashboard.php");
-        exit;
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        if (password_verify($password, $user['UserPassword'])) {
+            $_SESSION['user'] = $email; // Oturum başlat
+            header("Location: dashboard.php");
+            exit;
+        } else {
+            echo "Hatalı şifre.";
+        }
     } else {
-        $error_message = "Invalid email or password.";
-        $forgot_password_link = true; // Show "Forgot Password"
+        echo "Kullanıcı bulunamadı.";
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,24 +37,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="login-wrapper">
         <div class="login-container">
-            <h1>Collaborate, Organize, And Track Every Task</h1>
-            <p class="subtitle">Please login to your account</p>
-            <?php if (isset($error_message)) { ?>
-                <p class="error"><?php echo $error_message; ?></p>
-            <?php } ?>
+            <h1>Log In</h1>
+            <!-- Form Yapısı -->
             <form action="login.php" method="POST">
                 <div class="login-input">
-                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="email" name="email" placeholder="E-mail" required>
                 </div>
                 <div class="login-input">
                     <input type="password" name="password" placeholder="Password" required>
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit">Log In</button>
             </form>
-            <?php if (isset($forgot_password_link)) { ?>
-                <p class="forgot-password">Having trouble logging in? <a href="reset_password.php">Reset your password.</a></p>
-            <?php } ?>
-            <p>Don't have an account? <a href="signup.php">Sign Up</a></p>
+            <!-- Hata Mesajı -->
+            <p class="error-message">User not found.</p>
+            <!-- Kayıt Olmadıysan Bölümü -->
+            <div class="signup-section">
+                <p>Don't already have an account ?</p> 
+                <a href="signup.php" class="signup-btn">Sign Up</a>
+            </div>
         </div>
     </div>
 </body>
