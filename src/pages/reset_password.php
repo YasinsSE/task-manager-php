@@ -1,17 +1,17 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = htmlspecialchars(trim($_POST['email']));
-    $companyid = htmlspecialchars(trim($_POST['companyid']));
+    $teamid = htmlspecialchars(trim($_POST['teamid']));
 
     $valid_email = 'admin@example.com';
-    $valid_companyid = '2024001';
+    $valid_teamid = '2024001';
 
-    if (empty($email) || empty($companyid)) {
+    if (empty($email) || empty($teamid)) {
         $error_message = "Both fields are required.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error_message = "Invalid email format.";
-    } elseif ($email !== $valid_email || $companyid !== $valid_companyid) {
-        $error_message = "Email and Company ID do not match our records.";
+    } elseif ($email !== $valid_email || $teamid !== $valid_teamid) {
+        $error_message = "Email and Team ID do not match our records.";
     } else {
         $success_message = "Password reset requested. Please check your email for further instructions.";
     }
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="login-wrapper">
         <div class="login-container">
             <h1>Reset Your Password</h1>
-            <p class="subtitle">Enter your email and Company ID to request a password reset</p>
+            <p class="subtitle">Enter your email and Team ID to request a password reset</p>
             <?php if (isset($error_message)) { ?>
                 <p class="error"><?php echo $error_message; ?></p>
             <?php } elseif (isset($success_message)) { ?>
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="email" name="email" placeholder="Email" required>
                     </div>
                     <div class="login-input">
-                        <input type="text" name="companyid" placeholder="Company ID" required>
+                        <input type="text" name="teamid" placeholder="Team ID" required>
                     </div>
                     <button type="submit">Request Password Reset</button>
                 </form>

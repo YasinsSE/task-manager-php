@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../config/db.php'; // Database connection
+require_once '../config/db.php';
 require_once '../config/functions.php';
 
 ini_set('display_errors', 1);
@@ -13,22 +13,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = htmlspecialchars(trim($_POST['email']));
     $password = htmlspecialchars(trim($_POST['password']));
     $confirmPassword = htmlspecialchars(trim($_POST['confirm_password']));
-    $companyID = htmlspecialchars(trim($_POST['companyid']));
+    $teamID = htmlspecialchars(trim($_POST['teamid']));
 
     // Error handling
-    if (empty($firstName) || empty($lastName) || empty($email) || empty($password) || empty($confirmPassword) || empty($companyID)) {
+    if (empty($firstName) || empty($lastName) || empty($email) || empty($password) || empty($confirmPassword) || empty($teamID)) {
         $error_message = "Please fill in all fields.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error_message = "Invalid email address.";
     } elseif ($password !== $confirmPassword) {
         $error_message = "Passwords do not match.";
+    } elseif ($teamID < 24000 || $teamID > 24010) { 
+        $error_message = "Invalid Team ID. Please contact your manager for the correct Team ID.";
     } else {
         // Hash the password
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Insert user into the database
-        $stmt = $conn->prepare("INSERT INTO users (CompanyID, FirstName, LastName, UserEmail, UserPassword) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $companyID, $firstName, $lastName, $email, $hashedPassword);
+        $stmt = $conn->prepare("INSERT INTO users (TeamID, FirstName, LastName, UserEmail, UserPassword) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $teamID, $firstName, $lastName, $email, $hashedPassword);
 
         if ($stmt->execute()) {
             // Registration successful
@@ -36,18 +38,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: login.php");
             exit;
         } else {
-            $error_message = "Error: " . $stmt->error; // Show detailed error
+            $error_message = "Error: " . $stmt->error; 
         }
+
+        $stmt->close();
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kayıt Ol</title>
+    <title>Register</title>
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -74,12 +77,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="login-input">
                     <input 
                         type="text" 
-                        name="companyid" 
-                        placeholder="Enter your Company ID" 
-                        minlength="7" 
-                        maxlength="7" 
-                        pattern="\d{7}" 
-                        title="Company ID must be a 7 digit number. Contact your manager if you don’t know it." 
+                        name="teamid" 
+                        placeholder="Enter your Team ID" 
+                        minlength="5" 
+                        maxlength="5" 
+                        pattern="\d{5}" 
+                        title="Team ID must be 5 digits. Contact your manager if you don’t know it." 
                         required>
                 </div>
                 <div class="login-input">

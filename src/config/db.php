@@ -1,14 +1,13 @@
 <?php
-$servername = "localhost"; // Workbench ve XAMPP için genelde localhost
-$username = "root";        // Varsayılan kullanıcı adı
-$password = "";            // Varsayılan şifre (XAMPP'de genelde boştur)
-$dbname = "taskmanagementdb"; // Sizin veritabanı adınız
+$servername = "127.0.0.1";
+$username = "root";
+$password = "";
+$dbname = "taskmanagementdb";
 
-// Veritabanı bağlantısını oluştur
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Bağlantıyı kontrol et
 if ($conn->connect_error) {
-    die("Bağlantı başarısız: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
+
 ?>

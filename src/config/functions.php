@@ -1,13 +1,12 @@
 <?php
 // Kullanıcı kayıt fonksiyonu
-function registerUser($conn, $firstName, $lastName, $email, $password, $companyID) {
-    // Şifreyi hashle
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+function registerUser($conn, $firstName, $lastName, $email, $password, $teamID) {
+    $hashedPassword = password_hash($password, algo: PASSWORD_DEFAULT);
 
     // SQL sorgusu (prepared statement ile)
-    $sql = "INSERT INTO users (FirstName, LastName, UserEmail, UserPassword, CompanyID) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO users (FirstName, LastName, UserEmail, UserPassword, TeamID) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $firstName, $lastName, $email, $hashedPassword, $companyID);
+    $stmt->bind_param("sssss", $firstName, $lastName, $email, $hashedPassword, $teamID);
 
     if ($stmt->execute()) {
         return [
@@ -15,16 +14,16 @@ function registerUser($conn, $firstName, $lastName, $email, $password, $companyI
             'message' => "Registration successful! You can now log in."
         ];
     } else {
-        if ($stmt->errno === 1062) { // Duplicate entry (E-posta veya CompanyID zaten kayıtlı)
+        if ($stmt->errno === 1062) { // Duplicate entry (E-posta veya TeamID zaten kayıtlı)
             if (strpos($stmt->error, 'UserEmail') !== false) {
                 return [
                     'success' => false,
                     'message' => "This email address is already registered."
                 ];
-            } elseif (strpos($stmt->error, 'CompanyID') !== false) {
+            } elseif (strpos($stmt->error, 'TeamID') !== false) {
                 return [
                     'success' => false,
-                    'message' => "This Company ID is already registered."
+                    'message' => "This Team ID is already registered."
                 ];
             }
         }

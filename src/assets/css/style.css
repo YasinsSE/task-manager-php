@@ -356,3 +356,198 @@ a:hover {
     color: #6a11cb;
 }
 
+/* ================================= */
+/* Left Menu Styles                  */
+/* ================================= */
+
+.menu {
+    width: 25%;
+    background-color: #343a40;
+    padding: 20px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: 100vh; /* Full height menu */
+    overflow: hidden; /* Prevent overflow issues */
+}
+
+.menu h2 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 18px;
+    border-bottom: 1px solid #495057;
+    padding-bottom: 10px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #495057;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.menu a:hover,
+.menu a.active {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+/* Bottom Section for Settings and Logout */
+.menu-bottom {
+    margin-top: auto; /* Pushes this section to the bottom */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 20px; /* Ensures the bottom button has space */
+}
+
+.menu-bottom a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #495057;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+    margin-bottom: 10px; /* Additional spacing for the logout button */
+}
+
+.menu-bottom a:hover {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+/* ================================= */
+/* Right Content Section             */
+/* ================================= */
+
+.content {
+    width: 75%;
+    display: flex;
+    flex-direction: row; /* Horizontal task panels */
+    gap: 10px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    height: 100vh; /* Full viewport height */
+    overflow-y: auto; /* Allow scrolling for the page */
+}
+
+/* ================================= */
+/* Task Blocks                       */
+/* ================================= */
+
+.task-block {
+    flex: 1; /* Equal width for all blocks */
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: calc(100vh - 40px); /* Fit within viewport height */
+    overflow-y: auto; /* Scrollable if tasks overflow */
+    scrollbar-width: thin; /* Modern browsers */
+    scrollbar-color: #6a11cb #f0f0f0; /* Thumb and track colors */
+}
+
+/* Scrollbar Styles (Webkit-based Browsers) */
+.task-block::-webkit-scrollbar {
+    width: 8px;
+}
+
+.task-block::-webkit-scrollbar-thumb {
+    background-color: #6a11cb;
+    border-radius: 4px;
+}
+
+.task-block::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+.task-block h3 {
+    margin: 0;
+    font-size: 18px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    color: #343a40;
+}
+
+/* ================================= */
+/* Task Items                        */
+/* ================================= */
+
+.task-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s, box-shadow 0.3s ease;
+}
+
+.task-item.draggable:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.task-item.not-draggable {
+    background-color: #f9f9f9;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Task Header */
+.task-header {
+    text-align: center;
+    color: #495057;
+}
+
+.task-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #6c757d;
+}
+
+.task-divider {
+    border: none;
+    border-top: 2px solid #6c757d;
+    margin: 8px 0;
+}
+
+/* Task Body */
+.task-body {
+    text-align: left;
+    color: #343a40;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* Task Footer */
+.task-footer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #666;
+}
+
+.task-footer .task-due-date {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.task-footer .task-assigned {
+    color: #28a745;
+    font-weight: bold;
+}
