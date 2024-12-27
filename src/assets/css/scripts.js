@@ -7,3 +7,4 @@ function openModal(column) {
 function closeModal() {
     document.getElementById('addTaskModal').style.display = 'none';
 }
+

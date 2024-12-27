@@ -62,14 +62,37 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
 </head>
 <body class="dashboard">
     <!-- Left Menu Section -->
-    <div class="menu">
-        <h2>Task Management System</h2>
-        <a href="dashboard.php?view=all_tasks" class="<?= $view === 'all_tasks' ? 'active' : ''; ?>">All Tasks</a>
-        <a href="dashboard.php?view=my_tasks" class="<?= $view === 'my_tasks' ? 'active' : ''; ?>">My Tasks</a>
-        <div class="menu-bottom">
-            <a href="logout.php">Logout</a>
-        </div>
+    <!-- Left Menu Section -->
+<div class="menu">
+    <h2>Task Management System</h2>
+    <a href="dashboard.php?view=all_tasks" class="<?= $view === 'all_tasks' ? 'active' : ''; ?>">All Tasks</a>
+    <a href="dashboard.php?view=my_tasks" class="<?= $view === 'my_tasks' ? 'active' : ''; ?>">My Tasks</a>
+    <button id="manageTaskBtn">Manage Task</button>
+    <button id="manageEmployeeBtn">Manage Employee</button>
+    <div class="menu-bottom">
+        <a href="logout.php">Logout</a>
     </div>
+</div>
+
+<!-- Pop-ups -->
+<div id="overlay" class="hidden"></div>
+
+<div id="manageTaskPopup" class="popup hidden">
+    <div class="popup-content">
+        <h3>Manage Task</h3>
+        <p>Here you can add, edit, or delete tasks.</p>
+        <button id="closeTaskPopup">Close</button>
+    </div>
+</div>
+
+<div id="manageEmployeePopup" class="popup hidden">
+    <div class="popup-content">
+        <h3>Manage Employee</h3>
+        <p>Here you can add, edit, or remove employees.</p>
+        <button id="closeEmployeePopup">Close</button>
+    </div>
+</div>
+
 
     <!-- Right Content Section -->
     <div class="content">
@@ -103,7 +126,7 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
             <?php endif; ?>
         <?php endforeach; ?>
     </div>
-
+      
     <div class="task-block" id="todo">
         <h3>TODO</h3>
         <?php foreach ($tasks as $task): ?>
@@ -192,6 +215,27 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
     </div>
 </div>
 
+<!-- Pop-up ve Overlay -->
+<div id="overlay" class="popup-overlay hidden"></div>
+
+<!-- Manage Task Pop-up -->
+<div class="popup hidden" id="manage-task-popup">
+    <div class="popup-content">
+        <h3>Manage Task</h3>
+        <p>Here you can add, edit, or delete tasks.</p>
+        <button class="popup-close" id="close-task-popup">Close</button>
+    </div>
+</div>
+
+<!-- Manage Employee Pop-up -->
+<div class="popup hidden" id="manage-employee-popup">
+    <div class="popup-content">
+        <h3>Manage Employee</h3>
+        <p>Here you can add, edit, or remove employees.</p>
+        <button class="popup-close" id="close-employee-popup">Close</button>
+    </div>
+</div>
+
     <script>
         // Drag-and-Drop Functionality
         const tasks = document.querySelectorAll('.task-item.draggable');
@@ -217,6 +261,86 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
                 }
             });
         });
+        document.addEventListener('DOMContentLoaded', () => {
+    const manageTaskPopup = document.getElementById('manage-task-popup');
+    const manageEmployeePopup = document.getElementById('manage-employee-popup');
+    const overlay = document.getElementById('overlay');
+    const closeTaskPopup = document.getElementById('close-task-popup');
+    const closeEmployeePopup = document.getElementById('close-employee-popup');
+    const manageTaskBtn = document.getElementById('manageTaskBtn');
+    const manageEmployeeBtn = document.getElementById('manageEmployeeBtn');
+
+    // Pop-up açma fonksiyonu
+    const openPopup = (popup) => {
+        popup.classList.remove('hidden'); // Gizli sınıfını kaldır
+        popup.classList.add('open'); // Açık sınıfını ekle
+        overlay.classList.remove('hidden'); // Overlay'i görünür yap
+        overlay.classList.add('open');
+    };
+
+    // Pop-up kapatma fonksiyonu
+    const closePopup = (popup) => {
+        popup.classList.remove('open'); // Açık sınıfını kaldır
+        popup.classList.add('hidden'); // Gizli sınıfını ekle
+        overlay.classList.remove('open'); // Overlay'i gizle
+        overlay.classList.add('hidden');
+    };
+
+    // Manage Task butonuna tıklama
+    manageTaskBtn.addEventListener('click', async () => {
+        const role = await checkUserRole();
+        if (role === 'Admin') {
+            openPopup(manageTaskPopup);
+        } else {
+            alert('Access Denied: You do not have permission to manage tasks.');
+        }
+    });
+
+    // Manage Employee butonuna tıklama
+    manageEmployeeBtn.addEventListener('click', async () => {
+        const role = await checkUserRole();
+        if (role === 'Admin') {
+            openPopup(manageEmployeePopup);
+        } else {
+            alert('Access Denied: You do not have permission to manage employees.');
+        }
+    });
+
+    // Pop-up kapatma işlemleri
+    closeTaskPopup.addEventListener('click', () => {
+        closePopup(manageTaskPopup);
+    });
+
+    closeEmployeePopup.addEventListener('click', () => {
+        closePopup(manageEmployeePopup);
+    });
+
+    // Overlay'e tıklama
+    overlay.addEventListener('click', () => {
+        closePopup(manageTaskPopup);
+        closePopup(manageEmployeePopup);
+    });
+
+    // Kullanıcı rolünü kontrol eden fonksiyon
+    const checkUserRole = async () => {
+        try {
+            const response = await fetch('get_user_role.php'); // get_user_role.php'yi çağır
+            const data = await response.json();
+
+            if (data.error) {
+                console.error('Error:', data.error);
+                return null;
+            }
+
+            console.log('User role:', data.role); // Debug için konsola yazdır
+            return data.role;
+        } catch (error) {
+            console.error('Rol kontrol edilirken bir hata oluştu:', error);
+            return null;
+        }
+    };
+});
+
     </script>
 </body>
 </html>
