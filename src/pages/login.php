@@ -2,7 +2,6 @@
 session_start();
 require_once '../config/db.php'; 
 
-
 $error_message = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -11,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($email && $password) {
         // Query to check if the user exists
-        $stmt = $conn->prepare("SELECT id, userPassword FROM users WHERE userEmail = ?");
+        $stmt = $conn->prepare("SELECT id, userPassword, role FROM users WHERE userEmail = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -24,6 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 session_regenerate_id(); 
                 $_SESSION['user_id'] = $user['id']; 
                 $_SESSION['email'] = $email; 
+                $_SESSION['role'] = $user['role']; // Kullanıcının role bilgisini oturuma kaydet
+
                 header("Location: dashboard.php");
                 exit;
             } else {
