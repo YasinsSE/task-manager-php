@@ -74,25 +74,6 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
     </div>
 </div>
 
-<!-- Pop-ups -->
-<div id="overlay" class="hidden"></div>
-
-<div id="manageTaskPopup" class="popup hidden">
-    <div class="popup-content">
-        <h3>Manage Task</h3>
-        <p>Here you can add, edit, or delete tasks.</p>
-        <button id="closeTaskPopup">Close</button>
-    </div>
-</div>
-
-<div id="manageEmployeePopup" class="popup hidden">
-    <div class="popup-content">
-        <h3>Manage Employee</h3>
-        <p>Here you can add, edit, or remove employees.</p>
-        <button id="closeEmployeePopup">Close</button>
-    </div>
-</div>
-
 
     <!-- Right Content Section -->
     <div class="content">
@@ -231,7 +212,7 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
 <div class="popup hidden" id="manage-employee-popup">
     <div class="popup-content">
         <h3>Manage Employee</h3>
-        <p>Here you can add, edit, or remove employees.</p>
+        <ul id="employee-list"></ul>
         <button class="popup-close" id="close-employee-popup">Close</button>
     </div>
 </div>
@@ -269,6 +250,8 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
     const closeEmployeePopup = document.getElementById('close-employee-popup');
     const manageTaskBtn = document.getElementById('manageTaskBtn');
     const manageEmployeeBtn = document.getElementById('manageEmployeeBtn');
+    const employeeList = document.getElementById('employee-list');
+    
 
     // Pop-up açma fonksiyonu
     const openPopup = (popup) => {
@@ -341,6 +324,63 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
     };
 });
 
+const loadEmployees = async () => {
+    try {
+        console.log('Fetching users...');
+        const response = await fetch('http://localhost/TaskManagerPHP/src/pages/get_users.php');
+        console.log('Fetch Response:', response);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const users = await response.json();
+        console.log('Fetched Users:', users);
+
+        const employeeList = document.getElementById('employee-list');
+        employeeList.innerHTML = ''; // Listeyi temizle
+
+        users.forEach(user => {
+            console.log(`Adding user: ${user.firstName} ${user.lastName}`);
+            const li = document.createElement('li');
+            li.textContent = `${user.firstName} ${user.lastName} (${user.userEmail})`;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.style.marginLeft = '10px';
+            deleteButton.onclick = async () => {
+                console.log(`Deleting user with ID: ${user.id}`);
+                const deleteResponse = await fetch('http://localhost/TaskManagerPHP/src/pages/delete_users.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `id=${user.id}`,
+                });
+                
+
+                const deleteResult = await deleteResponse.json();
+                console.log('Delete Result:', deleteResult);
+
+                if (deleteResult.success) {
+                    alert(deleteResult.message);
+                    loadEmployees(); // Listeyi güncelle
+                } else {
+                    alert(deleteResult.message);
+                }
+            };
+
+            li.appendChild(deleteButton);
+            employeeList.appendChild(li);
+        });
+    } catch (error) {
+        console.error('Error loading employees:', error);
+    }
+};
+
+    document.getElementById('manageEmployeeBtn').addEventListener('click', () => {
+        loadEmployees();
+    });
     </script>
 </body>
 </html>

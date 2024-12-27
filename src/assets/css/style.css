@@ -643,3 +643,28 @@ a:hover {
 .popup-overlay.hidden {
     display: none;
 }
+
+#employee-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+#employee-list li {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#employee-list button {
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    width: 75px;
+}
