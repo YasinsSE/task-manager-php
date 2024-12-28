@@ -203,7 +203,20 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
 <div class="popup hidden" id="manage-task-popup">
     <div class="popup-content">
         <h3>Manage Task</h3>
-        <p>Here you can add, edit, or delete tasks.</p>
+        <ul id="task-list">
+        <li class="task-item">
+        <div class="task-row">
+          <span class="task-text">Design Login Page - Assigned to: null - Status: TODO</span>
+          <button class="edit-button">Edit</button>
+        </div>
+      </li>
+      <li class="task-item">
+        <div class="task-row">
+          <span class="task-text">Backend API Development - Assigned to: null - Status: In Progress</span>
+          <button class="edit-button">Edit</button>
+        </div>
+      </li>
+        </ul>
         <button class="popup-close" id="close-task-popup">Close</button>
     </div>
 </div>
@@ -381,6 +394,86 @@ const loadEmployees = async () => {
     document.getElementById('manageEmployeeBtn').addEventListener('click', () => {
         loadEmployees();
     });
+
+
+    /* MANAGE TASK PART */
+
+    const loadTasks = async () => {
+    try {
+        const response = await fetch('http://localhost/TaskManagerPHP/src/pages/get_tasks.php');
+        const tasks = await response.json();
+
+        const taskList = document.getElementById('task-list');
+        taskList.innerHTML = ''; // Listeyi temizle
+
+        tasks.forEach(task => {
+            const li = document.createElement('li');
+    li.className = 'task-item';
+
+    // Görev satırı için bir div oluştur
+    const taskRow = document.createElement('div');
+    taskRow.className = 'task-row';
+
+    // Görev metni
+    const taskText = document.createElement('span');
+    taskText.textContent = `${task.taskTitle} - Assigned to: ${task.assignedUserId} - Status: ${task.taskStatus}`;
+    taskText.className = 'task-text';
+
+    // Edit butonu
+    const editButton = document.createElement('button');
+    editButton.textContent = 'Edit';
+    editButton.classList.add('edit-button');
+
+    editButton.onclick = () => {
+        const newTitle = prompt('New Task Title:', task.taskTitle);
+        const newAssignedUserId = prompt('New Assigned User ID:', task.assignedUserId);
+        const newStatus = prompt('New Task Status:', task.taskStatus);
+
+        if (newTitle && newAssignedUserId && newStatus) {
+            updateTask(task.taskId, newTitle, newAssignedUserId, newStatus);
+        }
+    };
+
+    // Div'e öğeleri ekle
+    taskRow.appendChild(taskText);
+    taskRow.appendChild(editButton);
+
+    // Li'ye div'i ekle
+    li.appendChild(taskRow);
+
+    // Listeye ekle
+    taskList.appendChild(li);
+        });
+    } catch (error) {
+        console.error('Error loading tasks:', error);
+    }
+};
+
+const updateTask = async (taskId, taskTitle, assignedUserId, taskStatus) => {
+    try {
+        const response = await fetch('http://localhost/TaskManagerPHP/src/pages/update_task.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `taskId=${taskId}&taskTitle=${taskTitle}&assignedUserId=${assignedUserId}&taskStatus=${taskStatus}`,
+        });
+
+        const result = await response.json();
+        alert(result.message);
+
+        if (result.success) {
+            loadTasks(); // Listeyi güncelle
+        }
+    } catch (error) {
+        console.error('Error updating task:', error);
+    }
+};
+
+document.getElementById('manageTaskBtn').addEventListener('click', () => {
+    loadTasks();
+});
+
     </script>
 </body>
 </html>

@@ -668,3 +668,64 @@ a:hover {
     border-radius: 4px;
     width: 75px;
 }
+
+#manage-task-popup{
+    height: 550px;
+    width: 500px;
+    overflow: scroll;
+}
+
+.editButton{
+    background: gray;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 4px;
+    width: 75px;
+}
+
+.task-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .task-text {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+  
+  .edit-button {
+    padding: 5px 10px;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .edit-button:hover {
+    background-color: #6c757d;
+  }
+  
+
+  .popup-close{
+    display: block;
+    background: #6c757d; /* All Tasks ve My Tasks ile aynı renk */
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 5px; /* Köşelerin yuvarlaklığını eşitlemek için */
+    font-weight: bold;
+  }
+
+  .popup-close:active {
+    background-color: #343a40; /* Koyu gri renk */
+  }
+
+  .popup-close:hover{
+    background-color: #343a40;
+  }
