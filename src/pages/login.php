@@ -55,6 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <header class="page-header">
     <h1 class="header-title">TASK MANAGER</h1>
 </header>
+    <a href="https://ankarabilim.edu.tr/" target="_blank">
+        <img src="../assets/images/abunlogo.png" alt="Abun Logo" class="logo-top-right">
+    </a>
     <div class="login-wrapper">
     <div class="login-sidebar">
     <img src="../assets//images//loginphoto.webp" alt="Task Manager Illustration" class="sidebar-image">

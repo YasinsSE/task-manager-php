@@ -67,130 +67,143 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
     <a href="dashboard.php?view=my_tasks" class="<?= $view === 'my_tasks' ? 'active' : ''; ?>">My Tasks</a>
     <button id="manageTaskBtn">Manage Task</button>
     <button id="manageEmployeeBtn">Manage Employee</button>
-    <div class="menu-bottom">
-        <a href="logout.php">Logout</a>
-    </div>
+<div class="menu-bottom">
+
+<div class="theme-toggle-wrapper">
+  <label class="switch">
+    <input type="checkbox" id="themeToggle" />
+    <span class="slider round"></span>
+  </label>
+  <span class="tema-text">Dark Mode</span>
+</div>
+
+<a href="logout.php">Logout</a>
+</div>
+
 </div>
 
 
     <!-- Right Content Section -->
     <div class="content">
-    <!-- Task Status Panels -->
-    <div class="task-block" id="waiting-for-assignment">
-        <h3>Waiting for Assignment</h3>
-        <?php foreach ($tasks as $task): ?>
-            <?php if ($task['taskStatus'] === 'Unassigned'): ?>
-                <div class="task-item <?= $task['assignedUserId'] == $currentUserId ? 'draggable' : 'not-draggable'; ?>"
-                    <?= $task['assignedUserId'] == $currentUserId ? 'draggable="true"' : ''; ?>>
-                    <div class="task-header">
-                        <p class="task-title"><?= htmlspecialchars($task['taskTitle']); ?></p>
-                        <hr class="task-divider">
-                    </div>
-                    <div class="task-body">
-                        <p class="task-description"><?= htmlspecialchars($task['taskDescription']); ?></p>
-                    </div>
-                    <div class="task-footer">
-                        <p class="task-due-date">Due: <?= htmlspecialchars($task['taskDueDate']); ?></p>
-                        <p class="task-assigned">
-                            Assigned to: 
-                            <?php if (!empty($task['firstName']) && !empty($task['lastName'])): ?>
-                                <?= htmlspecialchars($task['firstName']) . ' ' . htmlspecialchars(substr($task['lastName'], 0, 1)) . '.'; ?>
-                            <?php else: ?>
-                                Unassigned
-                            <?php endif; ?>
-                        </p>
-                    </div>
+ <!-- Task Status Panels -->
+<div class="task-block" id="waiting-for-assignment">
+    <h3>Waiting for Assignment</h3>
+    <?php foreach ($tasks as $task): ?>
+        <?php if ($task['taskStatus'] === 'Unassigned'): ?>
+            <div class="task-item <?= $task['assignedUserId'] == $currentUserId ? 'draggable' : 'not-draggable'; ?>"
+                data-task-id="<?= htmlspecialchars($task['taskId']); ?>"
+                <?= $task['assignedUserId'] == $currentUserId ? 'draggable="true"' : ''; ?>>
+                <div class="task-header">
+                    <p class="task-title"><?= htmlspecialchars($task['taskTitle']); ?></p>
+                    <hr class="task-divider">
+                </div>
+                <div class="task-body">
+                    <p class="task-description"><?= htmlspecialchars($task['taskDescription']); ?></p>
+                </div>
+                <div class="task-footer">
+                    <p class="task-due-date">Due: <?= htmlspecialchars($task['taskDueDate']); ?></p>
+                    <p class="task-assigned">
+                        Assigned to: 
+                        <?php if (!empty($task['firstName']) && !empty($task['lastName'])): ?>
+                            <?= htmlspecialchars($task['firstName']) . ' ' . htmlspecialchars(substr($task['lastName'], 0, 1)) . '.'; ?>
+                        <?php else: ?>
+                            Unassigned
+                        <?php endif; ?>
+                    </p>
+                </div>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
 
+<div class="task-block" id="todo">
+    <h3>TODO</h3>
+    <?php foreach ($tasks as $task): ?>
+        <?php if ($task['taskStatus'] === 'TODO'): ?>
+            <div class="task-item <?= $task['assignedUserId'] == $currentUserId ? 'draggable' : 'not-draggable'; ?>"
+                data-task-id="<?= htmlspecialchars($task['taskId']); ?>"
+                <?= $task['assignedUserId'] == $currentUserId ? 'draggable="true"' : ''; ?>>
+                <div class="task-header">
+                    <p class="task-title"><?= htmlspecialchars($task['taskTitle']); ?></p>
+                    <hr class="task-divider">
                 </div>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </div>
-      
-    <div class="task-block" id="todo">
-        <h3>TODO</h3>
-        <?php foreach ($tasks as $task): ?>
-            <?php if ($task['taskStatus'] === 'TODO'): ?>
-                <div class="task-item <?= $task['assignedUserId'] == $currentUserId ? 'draggable' : 'not-draggable'; ?>"
-                    <?= $task['assignedUserId'] == $currentUserId ? 'draggable="true"' : ''; ?>>
-                    <div class="task-header">
-                        <p class="task-title"><?= htmlspecialchars($task['taskTitle']); ?></p>
-                        <hr class="task-divider">
-                    </div>
-                    <div class="task-body">
-                        <p class="task-description"><?= htmlspecialchars($task['taskDescription']); ?></p>
-                    </div>
-                    <div class="task-footer">
-                        <p class="task-due-date">Due: <?= htmlspecialchars($task['taskDueDate']); ?></p>
-                        <p class="task-assigned">
-                            Assigned to: 
-                            <?php if (!empty($task['firstName']) && !empty($task['lastName'])): ?>
-                                <?= htmlspecialchars($task['firstName']) . ' ' . htmlspecialchars(substr($task['lastName'], 0, 1)) . '.'; ?>
-                            <?php else: ?>
-                                Unassigned
-                            <?php endif; ?>
-                        </p>
-                    </div>
+                <div class="task-body">
+                    <p class="task-description"><?= htmlspecialchars($task['taskDescription']); ?></p>
                 </div>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </div>
+                <div class="task-footer">
+                    <p class="task-due-date">Due: <?= htmlspecialchars($task['taskDueDate']); ?></p>
+                    <p class="task-assigned">
+                        Assigned to: 
+                        <?php if (!empty($task['firstName']) && !empty($task['lastName'])): ?>
+                            <?= htmlspecialchars($task['firstName']) . ' ' . htmlspecialchars(substr($task['lastName'], 0, 1)) . '.'; ?>
+                        <?php else: ?>
+                            Unassigned
+                        <?php endif; ?>
+                    </p>
+                </div>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
 
-    <div class="task-block" id="in-progress">
-        <h3>In Progress</h3>
-        <?php foreach ($tasks as $task): ?>
-            <?php if ($task['taskStatus'] === 'In Progress'): ?>
-                <div class="task-item <?= $task['assignedUserId'] == $currentUserId ? 'draggable' : 'not-draggable'; ?>"
-                    <?= $task['assignedUserId'] == $currentUserId ? 'draggable="true"' : ''; ?>>
-                    <div class="task-header">
-                        <p class="task-title"><?= htmlspecialchars($task['taskTitle']); ?></p>
-                        <hr class="task-divider">
-                    </div>
-                    <div class="task-body">
-                        <p class="task-description"><?= htmlspecialchars($task['taskDescription']); ?></p>
-                    </div>
-                    <div class="task-footer">
-                        <p class="task-due-date">Due: <?= htmlspecialchars($task['taskDueDate']); ?></p>
-                        <p class="task-assigned">
-                            Assigned to: 
-                            <?php if (!empty($task['firstName']) && !empty($task['lastName'])): ?>
-                                <?= htmlspecialchars($task['firstName']) . ' ' . htmlspecialchars(substr($task['lastName'], 0, 1)) . '.'; ?>
-                            <?php else: ?>
-                                Unassigned
-                            <?php endif; ?>
-                        </p>
-                    </div>
+<div class="task-block" id="in-progress">
+    <h3>In Progress</h3>
+    <?php foreach ($tasks as $task): ?>
+        <?php if ($task['taskStatus'] === 'In Progress'): ?>
+            <div class="task-item <?= $task['assignedUserId'] == $currentUserId ? 'draggable' : 'not-draggable'; ?>"
+                data-task-id="<?= htmlspecialchars($task['taskId']); ?>"
+                <?= $task['assignedUserId'] == $currentUserId ? 'draggable="true"' : ''; ?>>
+                <div class="task-header">
+                    <p class="task-title"><?= htmlspecialchars($task['taskTitle']); ?></p>
+                    <hr class="task-divider">
                 </div>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </div>
+                <div class="task-body">
+                    <p class="task-description"><?= htmlspecialchars($task['taskDescription']); ?></p>
+                </div>
+                <div class="task-footer">
+                    <p class="task-due-date">Due: <?= htmlspecialchars($task['taskDueDate']); ?></p>
+                    <p class="task-assigned">
+                        Assigned to: 
+                        <?php if (!empty($task['firstName']) && !empty($task['lastName'])): ?>
+                            <?= htmlspecialchars($task['firstName']) . ' ' . htmlspecialchars(substr($task['lastName'], 0, 1)) . '.'; ?>
+                        <?php else: ?>
+                            Unassigned
+                        <?php endif; ?>
+                    </p>
+                </div>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
 
-    <div class="task-block" id="done">
-        <h3>Done</h3>
-        <?php foreach ($tasks as $task): ?>
-            <?php if ($task['taskStatus'] === 'Done'): ?>
-                <div class="task-item <?= $task['assignedUserId'] == $currentUserId ? 'draggable' : 'not-draggable'; ?>"
-                    <?= $task['assignedUserId'] == $currentUserId ? 'draggable="true"' : ''; ?>>
-                    <div class="task-header">
-                        <p class="task-title"><?= htmlspecialchars($task['taskTitle']); ?></p>
-                        <hr class="task-divider">
-                    </div>
-                    <div class="task-body">
-                        <p class="task-description"><?= htmlspecialchars($task['taskDescription']); ?></p>
-                    </div>
-                    <div class="task-footer">
-                        <p class="task-due-date">Due: <?= htmlspecialchars($task['taskDueDate']); ?></p>
-                        <p class="task-assigned">
-                            Assigned to: 
-                            <?php if (!empty($task['firstName']) && !empty($task['lastName'])): ?>
-                                <?= htmlspecialchars($task['firstName']) . ' ' . htmlspecialchars(substr($task['lastName'], 0, 1)) . '.'; ?>
-                            <?php else: ?>
-                                Unassigned
-                            <?php endif; ?>
-                        </p>
-                    </div>
+<div class="task-block" id="done">
+    <h3>Done</h3>
+    <?php foreach ($tasks as $task): ?>
+        <?php if ($task['taskStatus'] === 'Done'): ?>
+            <div class="task-item <?= $task['assignedUserId'] == $currentUserId ? 'draggable' : 'not-draggable'; ?>"
+                data-task-id="<?= htmlspecialchars($task['taskId']); ?>"
+                <?= $task['assignedUserId'] == $currentUserId ? 'draggable="true"' : ''; ?>>
+                <div class="task-header">
+                    <p class="task-title"><?= htmlspecialchars($task['taskTitle']); ?></p>
+                    <hr class="task-divider">
                 </div>
-            <?php endif; ?>
-        <?php endforeach; ?>
+                <div class="task-body">
+                    <p class="task-description"><?= htmlspecialchars($task['taskDescription']); ?></p>
+                </div>
+                <div class="task-footer">
+                    <p class="task-due-date">Due: <?= htmlspecialchars($task['taskDueDate']); ?></p>
+                    <p class="task-assigned">
+                        Assigned to: 
+                        <?php if (!empty($task['firstName']) && !empty($task['lastName'])): ?>
+                            <?= htmlspecialchars($task['firstName']) . ' ' . htmlspecialchars(substr($task['lastName'], 0, 1)) . '.'; ?>
+                        <?php else: ?>
+                            Unassigned
+                        <?php endif; ?>
+                    </p>
+                </div>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
     </div>
 </div>
 
@@ -248,31 +261,91 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
     </div>
 </div>
 
-    <script>
-        
-        const tasks = document.querySelectorAll('.task-item.draggable');
-        const blocks = document.querySelectorAll('.task-block');
+<script>
+    const idToStatusMap = {
+        'waiting-for-assignment': 'Unassigned',
+        'todo': 'TODO',
+        'in-progress': 'In Progress',
+        'done': 'Done'
+    };
 
-        tasks.forEach(task => {
-            task.addEventListener('dragstart', e => {
-                e.dataTransfer.setData('text/plain', e.target.id);
-                task.classList.add('dragging');
-            });
+    const tasks = document.querySelectorAll('.task-item.draggable');
+    const blocks = document.querySelectorAll('.task-block');
 
-            task.addEventListener('dragend', () => {
-                task.classList.remove('dragging');
-            });
+    tasks.forEach(task => {
+        task.addEventListener('dragstart', e => {
+            e.dataTransfer.setData('text/plain', e.target.id);
+            task.classList.add('dragging');
         });
 
-        blocks.forEach(block => {
-            block.addEventListener('dragover', e => {
-                e.preventDefault();
-                const draggingTask = document.querySelector('.dragging');
-                if (draggingTask) {
-                    block.appendChild(draggingTask);
-                }
-            });
+        task.addEventListener('dragend', () => {
+            task.classList.remove('dragging');
         });
+    });
+
+    blocks.forEach(block => {
+        block.addEventListener('dragover', e => {
+            e.preventDefault();
+            const draggingTask = document.querySelector('.dragging');
+            if (draggingTask) {
+                block.appendChild(draggingTask);
+            }
+        });
+
+        block.addEventListener('drop', e => {
+    e.preventDefault();
+    const draggingTask = document.querySelector('.dragging');
+    if (draggingTask) {
+      const taskId = draggingTask.getAttribute('data-task-id');
+      const newStatusKey = block.getAttribute('id');    // "waiting-for-assignment", "todo", ...
+      const newStatus    = idToStatusMap[newStatusKey]; // "Unassigned", "TODO", vb.
+
+      if (newStatus === 'Unassigned') {
+        alert('This task cannot be set to Unassigned.');
+        location.reload(); 
+        return;
+      }
+
+      updateTaskStatus(taskId, newStatus);
+    }
+  });
+});
+
+async function updateTaskStatus(taskId, newStatus) {
+    try {
+        const response = await fetch('update_task_status.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `taskId=${taskId}&taskStatus=${encodeURIComponent(newStatus)}`,
+        });
+
+        const text = await response.text();
+        console.log('Raw response:', text);
+
+        let result;
+        try {
+            result = JSON.parse(text);
+        } catch (parseError) {
+            throw new Error(`JSON parse hatası: ${text}`);
+        }
+
+        if (result.success) {
+            console.log(`Task ${taskId} updated to ${newStatus}`);
+            alert(`Task ${taskId} => ${newStatus} olarak güncellendi!`);
+        } else {
+            console.error(`Failed to update task ${taskId}:`, result.message);
+            alert('Failed to update task status.');
+        }
+
+    } catch (error) {
+        console.error('Error updating task status:', error);
+        alert('An error occurred while updating the task status.');
+    }
+}
+
+
         document.addEventListener('DOMContentLoaded', () => {
     const manageTaskPopup = document.getElementById('manage-task-popup');
     const manageEmployeePopup = document.getElementById('manage-employee-popup');
@@ -335,7 +408,7 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
         closePopup(manageEmployeePopup);
     });
 
-    
+   
     const checkUserRole = async () => {
         try {
             const response = await fetch('get_user_role.php'); // get_user_role.php'yi çağır
@@ -582,6 +655,26 @@ async function saveTaskToDatabase(task) {
   return await response.json();
 }
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const themeToggle = document.getElementById('themeToggle');
+    
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeToggle.checked = true; 
+    }
+
+    themeToggle.addEventListener('change', function() {
+      if (this.checked) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  });
     </script>
 </body>
 </html>
