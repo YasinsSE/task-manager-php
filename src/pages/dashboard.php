@@ -1,10 +1,10 @@
 <?php
 require_once '../config/db.php';
-require_once 'require_auth.php'; // Ensure the user is logged in
+require_once 'require_auth.php'; 
 
 
 function fetchTasks($conn, $filter = null, $userId = null) {
-    // Base query to fetch tasks with user information
+    
     $query = "
         SELECT 
             tasks.taskId, 
@@ -19,7 +19,6 @@ function fetchTasks($conn, $filter = null, $userId = null) {
         LEFT JOIN users ON tasks.assignedUserId = users.id
     ";
 
-    # Filter for user's tasks
     if ($filter === 'my_tasks' && $userId) {
         $query .= " WHERE tasks.assignedUserId = ?";
     }
@@ -33,7 +32,7 @@ function fetchTasks($conn, $filter = null, $userId = null) {
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Fetch all tasks
+    
     $tasks = [];
     while ($row = $result->fetch_assoc()) {
         if (!empty($row['firstName']) && !empty($row['lastName'])) {
@@ -61,7 +60,6 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body class="dashboard">
-    <!-- Left Menu Section -->
     <!-- Left Menu Section -->
 <div class="menu">
     <h2>Task Management System</h2>
@@ -200,11 +198,14 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
 <div id="overlay" class="popup-overlay hidden"></div>
 
 <!-- Manage Task Pop-up -->
+<!-- Manage Task Pop-up -->
 <div class="popup hidden" id="manage-task-popup">
-    <div class="popup-content">
-        <h3>Manage Task</h3>
-        <ul id="task-list">
-        <li class="task-item">
+  <div class="popup-content">
+    <h3>Manage Task</h3>
+
+    <!-- Task List -->
+    <ul id="task-list">
+      <li class="task-item">
         <div class="task-row">
           <span class="task-text">Design Login Page - Assigned to: null - Status: TODO</span>
           <button class="edit-button">Edit</button>
@@ -216,9 +217,26 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
           <button class="edit-button">Edit</button>
         </div>
       </li>
-        </ul>
-        <button class="popup-close" id="close-task-popup">Close</button>
-    </div>
+    </ul>
+
+    <!-- New Task Form -->
+    <h4>Add New Task</h4>
+    <form id="add-task-form">
+      <label for="taskTitle">Task Title:</label>
+      <input type="text" id="taskTitle" name="taskTitle" required />
+
+      <label for="taskDescription">Task Description:</label>
+      <textarea id="taskDescription" name="taskDescription" required></textarea>
+
+      <label for="taskDueDate">Due Date:</label>
+      <input type="date" id="taskDueDate" name="taskDueDate" required />
+
+      <button type="submit" id="save-task-button">Add Task</button>
+    </form>
+
+    <!-- Close Button -->
+    <button class="close-button" id="close-task-popup">Close</button>
+  </div>
 </div>
 
 <!-- Manage Employee Pop-up -->
@@ -231,7 +249,7 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
 </div>
 
     <script>
-        // Drag-and-Drop Functionality
+        
         const tasks = document.querySelectorAll('.task-item.draggable');
         const blocks = document.querySelectorAll('.task-block');
 
@@ -266,23 +284,23 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
     const employeeList = document.getElementById('employee-list');
     
 
-    // Pop-up açma fonksiyonu
+    
     const openPopup = (popup) => {
-        popup.classList.remove('hidden'); // Gizli sınıfını kaldır
-        popup.classList.add('open'); // Açık sınıfını ekle
-        overlay.classList.remove('hidden'); // Overlay'i görünür yap
+        popup.classList.remove('hidden'); 
+        popup.classList.add('open'); 
+        overlay.classList.remove('hidden');
         overlay.classList.add('open');
     };
 
-    // Pop-up kapatma fonksiyonu
+    
     const closePopup = (popup) => {
-        popup.classList.remove('open'); // Açık sınıfını kaldır
-        popup.classList.add('hidden'); // Gizli sınıfını ekle
-        overlay.classList.remove('open'); // Overlay'i gizle
+        popup.classList.remove('open'); 
+        popup.classList.add('hidden'); 
+        overlay.classList.remove('open'); 
         overlay.classList.add('hidden');
     };
 
-    // Manage Task butonuna tıklama
+    
     manageTaskBtn.addEventListener('click', async () => {
         const role = await checkUserRole();
         if (role === 'Admin') {
@@ -292,7 +310,7 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
         }
     });
 
-    // Manage Employee butonuna tıklama
+    
     manageEmployeeBtn.addEventListener('click', async () => {
         const role = await checkUserRole();
         if (role === 'Admin') {
@@ -302,7 +320,7 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
         }
     });
 
-    // Pop-up kapatma işlemleri
+    
     closeTaskPopup.addEventListener('click', () => {
         closePopup(manageTaskPopup);
     });
@@ -311,13 +329,13 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
         closePopup(manageEmployeePopup);
     });
 
-    // Overlay'e tıklama
+    
     overlay.addEventListener('click', () => {
         closePopup(manageTaskPopup);
         closePopup(manageEmployeePopup);
     });
 
-    // Kullanıcı rolünü kontrol eden fonksiyon
+    
     const checkUserRole = async () => {
         try {
             const response = await fetch('get_user_role.php'); // get_user_role.php'yi çağır
@@ -328,7 +346,7 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
                 return null;
             }
 
-            console.log('User role:', data.role); // Debug için konsola yazdır
+            console.log('User role:', data.role); 
             return data.role;
         } catch (error) {
             console.error('Rol kontrol edilirken bir hata oluştu:', error);
@@ -351,7 +369,7 @@ const loadEmployees = async () => {
         console.log('Fetched Users:', users);
 
         const employeeList = document.getElementById('employee-list');
-        employeeList.innerHTML = ''; // Listeyi temizle
+        employeeList.innerHTML = ''; 
 
         users.forEach(user => {
             console.log(`Adding user: ${user.firstName} ${user.lastName}`);
@@ -377,7 +395,7 @@ const loadEmployees = async () => {
 
                 if (deleteResult.success) {
                     alert(deleteResult.message);
-                    loadEmployees(); // Listeyi güncelle
+                    loadEmployees(); 
                 } else {
                     alert(deleteResult.message);
                 }
@@ -404,22 +422,22 @@ const loadEmployees = async () => {
         const tasks = await response.json();
 
         const taskList = document.getElementById('task-list');
-        taskList.innerHTML = ''; // Listeyi temizle
+        taskList.innerHTML = ''; 
 
         tasks.forEach(task => {
             const li = document.createElement('li');
     li.className = 'task-item';
 
-    // Görev satırı için bir div oluştur
+    
     const taskRow = document.createElement('div');
     taskRow.className = 'task-row';
 
-    // Görev metni
+    
     const taskText = document.createElement('span');
     taskText.textContent = `${task.taskTitle} - Assigned to: ${task.assignedUserId} - Status: ${task.taskStatus}`;
     taskText.className = 'task-text';
 
-    // Edit butonu
+    
     const editButton = document.createElement('button');
     editButton.textContent = 'Edit';
     editButton.classList.add('edit-button');
@@ -434,14 +452,14 @@ const loadEmployees = async () => {
         }
     };
 
-    // Div'e öğeleri ekle
+    
     taskRow.appendChild(taskText);
     taskRow.appendChild(editButton);
 
-    // Li'ye div'i ekle
+    
     li.appendChild(taskRow);
 
-    // Listeye ekle
+    
     taskList.appendChild(li);
         });
     } catch (error) {
@@ -463,7 +481,7 @@ const updateTask = async (taskId, taskTitle, assignedUserId, taskStatus) => {
         alert(result.message);
 
         if (result.success) {
-            loadTasks(); // Listeyi güncelle
+            loadTasks();
         }
     } catch (error) {
         console.error('Error updating task:', error);
@@ -473,6 +491,96 @@ const updateTask = async (taskId, taskTitle, assignedUserId, taskStatus) => {
 document.getElementById('manageTaskBtn').addEventListener('click', () => {
     loadTasks();
 });
+
+
+/*TASK ADD */
+
+const taskList = document.getElementById('task-list');
+const addTaskForm = document.getElementById('add-task-form');
+
+
+addTaskForm.onsubmit = async (e) => {
+  e.preventDefault();
+
+
+  const taskTitle = document.getElementById('taskTitle').value;
+  const taskDescription = document.getElementById('taskDescription').value;
+  const taskDueDate = document.getElementById('taskDueDate').value;
+
+
+  const newTask = {
+    taskTitle: taskTitle,
+    taskDescription: taskDescription,
+    taskDueDate: taskDueDate,
+    assignedUserId: null,
+    taskStatus: 'Unassigned',
+  };
+
+
+  addTaskToUI(newTask);
+
+
+  try {
+    const response = await saveTaskToDatabase(newTask);
+    if (response.success) {
+      alert(`Task added successfully! Task ID: ${response.taskId}`);
+    } else {
+      throw new Error(response.error);
+    }
+  } catch (error) {
+    console.error('Failed to save task:', error);
+    alert('Failed to save task. Please try again.');
+  }
+
+  addTaskForm.reset();
+};
+
+
+function addTaskToUI(task) {
+  const li = document.createElement('li');
+  li.className = 'task-item';
+
+  const taskRow = document.createElement('div');
+  taskRow.className = 'task-row';
+
+  const taskText = document.createElement('span');
+  taskText.textContent = `${task.taskTitle} - Assigned to: ${task.assignedUserId} - Status: ${task.taskStatus}`;
+  taskText.className = 'task-text';
+
+  const editButton = document.createElement('button');
+  editButton.textContent = 'Edit';
+  editButton.classList.add('edit-button');
+
+ 
+  editButton.onclick = () => {
+    alert('Edit functionality is under development.');
+  };
+
+  taskRow.appendChild(taskText);
+  taskRow.appendChild(editButton);
+
+  li.appendChild(taskRow);
+  taskList.appendChild(li);
+}
+
+
+async function saveTaskToDatabase(task) {
+  const formData = new FormData();
+  formData.append('taskTitle', task.taskTitle);
+  formData.append('taskDescription', task.taskDescription);
+  formData.append('taskDueDate', task.taskDueDate);
+
+  const response = await fetch('http://localhost/TaskManagerPHP/src/pages/addTasks.php', {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to save task to database');
+  }
+
+  return await response.json();
+}
 
     </script>
 </body>

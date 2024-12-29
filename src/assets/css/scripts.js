@@ -1,6 +1,6 @@
 
 function openModal(column) {
-    document.getElementById('taskColumn').value = column; // Sütun bilgisi formda gizli olarak gönderilir
+    document.getElementById('taskColumn').value = column;
     document.getElementById('addTaskModal').style.display = 'flex';
 }
 

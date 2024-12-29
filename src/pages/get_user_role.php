@@ -1,23 +1,23 @@
 <?php
 session_start();
-require_once '../config/db.php'; // Veritabanı bağlantısı için gerekli dosya
+require_once '../config/db.php';
 
-// Kullanıcının oturumdaki ID'sini alın
-$currentUserId = $_SESSION['user_id'] ?? null; // `$_SESSION['user_id']` giriş sırasında ayarlandı
-$userRole = $_SESSION['role'] ?? null; // `$_SESSION['role']` giriş sırasında ayarlandı
+
+$currentUserId = $_SESSION['user_id'] ?? null;
+$userRole = $_SESSION['role'] ?? null;
 
 if (!$currentUserId) {
-    echo json_encode(['error' => 'User not logged in']); // Kullanıcı giriş yapmamış
+    echo json_encode(['error' => 'User not logged in']);
     exit;
 }
 
-// Oturumdaki role bilgisini döndür
+
 if ($userRole) {
-    echo json_encode(['role' => $userRole]); // Oturumdan role bilgisini döndür
+    echo json_encode(['role' => $userRole]);
     exit;
 }
 
-// Eğer oturumda role yoksa, veritabanından kontrol et
+
 $query = "SELECT role FROM users WHERE id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $currentUserId);
@@ -26,13 +26,12 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $user = $result->fetch_assoc();
-    // Veritabanından alınan role bilgisini JSON olarak döndür
+
     echo json_encode(['role' => $user['role']]);
 
-    // Oturuma role bilgisini kaydet
     $_SESSION['role'] = $user['role'];
 } else {
-    echo json_encode(['error' => 'User not found']); // Kullanıcı bulunamadı
+    echo json_encode(['error' => 'User not found']);
 }
 
 $stmt->close();

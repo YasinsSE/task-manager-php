@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = trim($_POST['password']);
 
     if ($email && $password) {
-        // Query to check if the user exists
+        
         $stmt = $conn->prepare("SELECT id, userPassword, role FROM users WHERE userEmail = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -17,28 +17,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
-            // Verify the password
+            
             if (password_verify($password, $user['userPassword'])) {
-                // Successful login
+                
                 session_regenerate_id(); 
                 $_SESSION['user_id'] = $user['id']; 
                 $_SESSION['email'] = $email; 
-                $_SESSION['role'] = $user['role']; // Kullanıcının role bilgisini oturuma kaydet
+                $_SESSION['role'] = $user['role'];
 
                 header("Location: dashboard.php");
                 exit;
             } else {
-                // Invalid password
+                
                 $error_message = "Invalid credentials. Please check your email and password.";
             }
         } else {
-            // User not found
+           
             $error_message = "Invalid credentials. Please check your email and password.";
         }
 
         $stmt->close();
     } else {
-        // Invalid input
+        
         $error_message = "Please provide a valid email and password.";
     }
 }

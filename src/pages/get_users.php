@@ -8,7 +8,7 @@ $query = "SELECT id, firstName, lastName, userEmail FROM users";
 $result = $conn->query($query);
 
 if (!$result) {
-    http_response_code(500); // Sunucu hatası döndür
+    http_response_code(500);
     echo json_encode(['error' => 'Database query failed']);
     exit;
 }

@@ -1,4 +1,4 @@
-/* Global Styles */
+
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #6a11cb, #2575fc);
@@ -11,7 +11,7 @@ body {
     color: #333;
 }
 
-/* Login Wrapper */
+
 .login-wrapper {
     display: flex;
     justify-content: center;
@@ -20,7 +20,7 @@ body {
     width: 100%;
 }
 
-/* Login Container */
+
 .login-container {
     background: #fff;
     padding: 40px 30px;
@@ -32,7 +32,7 @@ body {
     animation: fadeIn 1s ease-in-out;
 }
 
-/* Fade-in Animation */
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -80,7 +80,7 @@ body {
     outline: none;
 }
 
-/* Button */
+
 button {
     width: 100%;
     background: #6a11cb;
@@ -97,15 +97,14 @@ button:hover {
     background: #2575fc;
 }
 
-/* Error Message */
+
 .error {
     color: #e74c3c;
     font-size: 14px;
     margin-bottom: 15px;
 }
-/* Dashboard */
- 
-/* Genel Body Stilleri */
+
+
 body.dashboard {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #6a11cb, #2575fc);
@@ -119,17 +118,17 @@ body.dashboard {
     overflow: hidden;
 }
 
-/* Admin Görev Alanı */
+
 .admin-tasks {
-    position: fixed; /* Sola sabitler */
+    position: fixed;
     top: 0;
     left: 0;
-    width: 25%; /* Genişlik */
-    height: 100%; /* Tüm yüksekliği kaplar */
+    width: 25%;
+    height: 100%;
     background: #fff;
     padding: 20px;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-    overflow-y: auto; /* Taşma için kaydırma */
+    overflow-y: auto;
 }
 
 
@@ -153,12 +152,11 @@ body.dashboard {
     color: #666;
 }
 
-/* Kanban Alanı */
 .dashboard-container {
-    margin-left: 25%; /* Admin görev alanı kadar boşluk bırakır */
+    margin-left: 25%;
     display: flex;
-    justify-content: center; /* Ortalar */
-    align-items: flex-start; /* Yukarı hizalar */
+    justify-content: center;
+    align-items: flex-start;
     padding: 20px;
 }
 
@@ -178,11 +176,11 @@ body.dashboard {
 .kanban-columns {
     display: flex;
     gap: 20px;
-    justify-content: center; /* Ortalar */
+    justify-content: center;
 }
 
 .kanban-column {
-    width: 30%; /* Her sütun eşit genişlikte */
+    width: 30%;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -238,10 +236,10 @@ body.dashboard {
 }
 
 .logout-button {
-    position: fixed; /* Sağ üst köşeye sabitler */
+    position: fixed;
     top: 10px;
     right: 20px;
-    z-index: 1000; /* Diğer elementlerin üstünde gösterir */
+    z-index: 1000;
 }
 
 .logout-button a {
@@ -260,7 +258,7 @@ body.dashboard {
     background: #2575fc;
 }
 
-/* Modal Styles */
+
 .modal {
     display: none;
     position: fixed;
@@ -268,7 +266,7 @@ body.dashboard {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Arka plan karartması */
+    background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -279,10 +277,10 @@ body.dashboard {
     padding: 30px 20px;
     border-radius: 10px;
     width: 90%;
-    max-width: 400px; /* Modalın genişliği */
+    max-width: 400px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     position: relative;
-    text-align: center; /* İçerik ortalanır */
+    text-align: center;
 }
 
 .close-btn {
@@ -303,7 +301,7 @@ body.dashboard {
 
 .form-group {
     margin-bottom: 15px;
-    text-align: left; /* Form öğeleri sola yaslanır */
+    text-align: left;
 }
 
 .form-group label {
@@ -320,12 +318,12 @@ body.dashboard {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 14px;
-    box-sizing: border-box; /* Padding dışına taşma engellenir */
+    box-sizing: border-box;
 }
 
 .form-group textarea {
-    resize: none; /* Kullanıcı boyutlandırmasını devre dışı bırakır */
-    height: 80px; /* Varsayılan yükseklik */
+    resize: none;
+    height: 80px;
 }
 
 .submit-btn {
@@ -369,8 +367,8 @@ a:hover {
     flex-direction: column;
     gap: 15px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    height: 100vh; /* Full height menu */
-    overflow: hidden; /* Prevent overflow issues */
+    height: 100vh;
+    overflow: hidden;
 }
 
 .menu h2 {
@@ -398,13 +396,12 @@ a:hover {
     color: #fff;
 }
 
-/* Bottom Section for Settings and Logout */
 .menu-bottom {
-    margin-top: auto; /* Pushes this section to the bottom */
+    margin-top: auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding-bottom: 20px; /* Ensures the bottom button has space */
+    padding-bottom: 20px;
 }
 
 .menu-bottom a {
@@ -415,7 +412,7 @@ a:hover {
     background-color: #495057;
     text-align: center;
     transition: background-color 0.3s, color 0.3s;
-    margin-bottom: 10px; /* Additional spacing for the logout button */
+    margin-bottom: 10px;
 }
 
 .menu-bottom a:hover {
@@ -430,12 +427,12 @@ a:hover {
 .content {
     width: 75%;
     display: flex;
-    flex-direction: row; /* Horizontal task panels */
+    flex-direction: row;
     gap: 10px;
     padding: 20px;
     background-color: #f8f9fa;
-    height: 100vh; /* Full viewport height */
-    overflow-y: auto; /* Allow scrolling for the page */
+    height: 100vh;
+    overflow-y: auto;
 }
 
 /* ================================= */
@@ -443,7 +440,7 @@ a:hover {
 /* ================================= */
 
 .task-block {
-    flex: 1; /* Equal width for all blocks */
+    flex: 1;
     background-color: #fff;
     border-radius: 8px;
     padding: 15px;
@@ -451,13 +448,13 @@ a:hover {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    height: calc(100vh - 40px); /* Fit within viewport height */
-    overflow-y: auto; /* Scrollable if tasks overflow */
-    scrollbar-width: thin; /* Modern browsers */
-    scrollbar-color: #6a11cb #f0f0f0; /* Thumb and track colors */
+    height: calc(100vh - 40px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #6a11cb #f0f0f0; 
 }
 
-/* Scrollbar Styles (Webkit-based Browsers) */
+
 .task-block::-webkit-scrollbar {
     width: 8px;
 }
@@ -552,43 +549,43 @@ a:hover {
     font-weight: bold;
 }
 
-/* Pop-up animasyonu ve görünümü */
+
 .popup {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.5); /* Küçük başlat */
+    transform: translate(-50%, -50%) scale(0.5);
     background: white;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1001; /* Overlay'den bir katman üstte */
-    opacity: 0; /* Görünmez başlat */
-    transition: all 0.5s ease; /* Geçiş animasyonu */
+    z-index: 1001;
+    opacity: 0;
+    transition: all 0.5s ease;
 }
 
 .popup-content {
     text-align: center;
 }
 
-/* Pop-up açıldığında tam görünürlük */
+
 .popup.open {
-    transform: translate(-50%, -50%) scale(1); /* Normal boyuta getir */
-    opacity: 1; /* Görünür yap */
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
 }
 
-/* Arka plan overlay */
+
 #overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Karartma efekti */
-    z-index: 1000; /* Pop-up'ın altına yerleştir */
-    display: none; /* Varsayılan olarak gizli */
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none; 
 }
 
-/* Overlay açıldığında görünür yap */
+
 #overlay.open {
     display: block;
 
@@ -597,19 +594,18 @@ a:hover {
 
 #manageTaskBtn, #manageEmployeeBtn {
     display: block;
-    background: #6c757d; /* All Tasks ve My Tasks ile aynı renk */
+    background: #6c757d;
     color: white;
     border: none;
     cursor: pointer;
     text-align: center;
     font-size: 16px;
-    border-radius: 5px; /* Köşelerin yuvarlaklığını eşitlemek için */
+    border-radius: 5px;
     font-weight: bold;
 }
 
-/* Hover efekti eklemek isterseniz */
 #manageTaskBtn:hover, #manageEmployeeBtn:hover {
-    background: #5a6268; /* Hover için daha koyu bir ton */
+    background: #5a6268;
 }
 
 .task-popup {
@@ -622,7 +618,7 @@ a:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1001;
     border-radius: 8px;
-    display: none; /* Varsayılan olarak gizli */
+    display: none;
 }
 
 .task-popup.hidden {
@@ -637,7 +633,7 @@ a:hover {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    display: none; /* Varsayılan olarak gizli */
+    display: none;
 }
 
 .popup-overlay.hidden {
@@ -698,6 +694,7 @@ a:hover {
   }
   
   .edit-button {
+    width:100px;
     padding: 5px 10px;
     background-color: #ccc;
     border: none;
@@ -712,13 +709,13 @@ a:hover {
 
   .popup-close{
     display: block;
-    background: #6c757d; /* All Tasks ve My Tasks ile aynı renk */
+    background: #6c757d;
     color: white;
     border: none;
     cursor: pointer;
     text-align: center;
     font-size: 16px;
-    border-radius: 5px; /* Köşelerin yuvarlaklığını eşitlemek için */
+    border-radius: 5px;
     font-weight: bold;
   }
 
@@ -728,4 +725,28 @@ a:hover {
 
   .popup-close:hover{
     background-color: #343a40;
+  }
+
+  #add-task-form input,
+#add-task-form textarea {
+  margin-bottom: 15px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;}
+
+  #save-task-button{
+    background-color: gray;
+    margin-bottom: 5px;
+  }
+  #save-task-button:hover{
+    background-color: #343a40
+  }
+
+  .close-button{
+    background-color: gray;
+  }
+
+  .close-button:hover{
+    background-color: #343a40
   }

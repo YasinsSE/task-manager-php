@@ -5,7 +5,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-// Tüm görevleri çek
+
 $query = "
     SELECT taskId, taskTitle, assignedUserId, taskStatus 
     FROM tasks
