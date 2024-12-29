@@ -358,7 +358,7 @@ $tasks = fetchTasks($conn, $view === 'my_tasks' ? 'my_tasks' : null, $currentUse
 const loadEmployees = async () => {
     try {
         console.log('Fetching users...');
-        const response = await fetch('http://localhost/TaskManagerPHP/src/pages/get_users.php');
+        const response = await fetch('get_users.php');
         console.log('Fetch Response:', response);
 
         if (!response.ok) {
@@ -381,7 +381,7 @@ const loadEmployees = async () => {
             deleteButton.style.marginLeft = '10px';
             deleteButton.onclick = async () => {
                 console.log(`Deleting user with ID: ${user.id}`);
-                const deleteResponse = await fetch('http://localhost/TaskManagerPHP/src/pages/delete_users.php', {
+                const deleteResponse = await fetch('delete_users.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -418,7 +418,7 @@ const loadEmployees = async () => {
 
     const loadTasks = async () => {
     try {
-        const response = await fetch('http://localhost/TaskManagerPHP/src/pages/get_tasks.php');
+        const response = await fetch('get_tasks.php');
         const tasks = await response.json();
 
         const taskList = document.getElementById('task-list');
@@ -469,7 +469,7 @@ const loadEmployees = async () => {
 
 const updateTask = async (taskId, taskTitle, assignedUserId, taskStatus) => {
     try {
-        const response = await fetch('http://localhost/TaskManagerPHP/src/pages/update_task.php', {
+        const response = await fetch('update_task.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -570,7 +570,7 @@ async function saveTaskToDatabase(task) {
   formData.append('taskDescription', task.taskDescription);
   formData.append('taskDueDate', task.taskDueDate);
 
-  const response = await fetch('http://localhost/TaskManagerPHP/src/pages/addTasks.php', {
+  const response = await fetch('addTasks.php', {
     method: 'POST',
     body: formData,
   });
