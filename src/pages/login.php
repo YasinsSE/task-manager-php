@@ -52,7 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
+<header class="page-header">
+    <h1 class="header-title">TASK MANAGER</h1>
+</header>
     <div class="login-wrapper">
+    <div class="login-sidebar">
+    <img src="../assets//images//loginphoto.webp" alt="Task Manager Illustration" class="sidebar-image">
+    </div>
         <div class="login-container">
             <h1>Log In</h1>
             <!-- Login Form -->
