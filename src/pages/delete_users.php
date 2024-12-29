@@ -1,8 +1,8 @@
 <?php
 require_once '../config/db.php';
-header("Access-Control-Allow-Origin: *"); // Tüm domainlere izin ver
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS"); // İzin verilen HTTP metodları
-header("Access-Control-Allow-Headers: Content-Type, Authorization"); // İzin verilen header'lar
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
